@@ -19,7 +19,7 @@ load_dotenv()
 SECRET_KEY = os.getenv("OPENAI_API_KEY")
 logging.debug(f"Nilai OPENAI_API_KEY: {SECRET_KEY}")
 if not SECRET_KEY:
-    raise EnvironmentError("OPENAI_API_KEY tidak ditemukan. Pastikan variabel lingkungan diatur dengan benar.")
+    raise EnvironmentError("API_KEY tidak ditemukan. Pastikan variabel lingkungan diatur dengan benar.")
 
 openai.api_key = SECRET_KEY
 
@@ -56,4 +56,4 @@ def get_bot_response():
 
 # Menjalankan aplikasi Flask
 if __name__ == "__main__":
-    app.run(debug=True)  # Ganti debug=False di produksi
+    app.run()  # Ganti debug=False di produksi
