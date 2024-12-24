@@ -16,12 +16,12 @@ app = Flask(__name__)
 load_dotenv()
 
 # Mendapatkan kunci API dari variabel lingkungan
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-logging.debug(f"Nilai OPENAI_API_KEY: {OPENAI_API_KEY}")
-if not OPENAI_API_KEY:
+SECRET_KEY = os.getenv("OPENAI_API_KEY")
+logging.debug(f"Nilai OPENAI_API_KEY: {SECRET_KEY}")
+if not SECRET_KEY:
     raise EnvironmentError("OPENAI_API_KEY tidak ditemukan. Pastikan variabel lingkungan diatur dengan benar.")
 
-openai.api_key = OPENAI_API_KEY
+openai.api_key = SECRET_KEY
 
 # Fungsi untuk mendapatkan respons dari OpenAI
 def get_completion(prompt, model="gpt-4o-mini"):
