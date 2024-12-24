@@ -5,8 +5,10 @@ from dotenv import load_dotenv
 import os
 import logging
 
-logging.basicConfig(level=logging.ERROR, filename='error.log', format='%(asctime)s - %(levelname)s - %(message)s')
+# Konfigurasi logging ke console
+logging.basicConfig(level=logging.ERROR)
 
+# logging.basicConfig(level=logging.ERROR, filename='error.log', format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 
@@ -31,7 +33,7 @@ def get_completion(prompt, model="gpt-4o-mini"):
         )
         return response.choices[0].message["content"]
     except Exception as e:
-        logging.error(f"Error saat memanggil API OpenAI: {e}")
+        logging.error(f"Terjadi kesalahan saat memanggil API OpenAI: {e}")
         return "Maaf, terjadi kesalahan pada server. Silakan coba lagi nanti."
 
 
