@@ -16,7 +16,7 @@ app = Flask(__name__)
 load_dotenv()
 
 # Mendapatkan kunci API dari variabel lingkungan
-openai_api_key = os.environ.get("OPENAI_API_KEY")
+openai_api_key = os.getenv("OPENAI_API_KEY")
 if not openai_api_key:
     raise EnvironmentError("OPENAI_API_KEY tidak ditemukan. Pastikan variabel lingkungan diatur dengan benar.")
 
