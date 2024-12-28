@@ -3,74 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Mode Chatbot</title>
+    <title>ChatGUI</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             background-color: #121212;
             color: #ffffff;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            flex-direction: column;
-            min-height: 100vh; /* Ensure footer is at the bottom */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .chat-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #1f1f1f;
-            border-radius: 8px;
+            height: 100vh; /* Pastikan kontainer memenuhi seluruh halaman */
+            width: 100%;
+            max-width: 700px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #1f1f1f;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             overflow: hidden;
-            flex-grow: 1; /* Allow chat container to expand */
-            display: flex; 
-            flex-direction: column; /* Make container a flex container */
         }
 
         header {
-            padding: 0;
+            padding: 15px;
+            background-color: #2c2c2c;
             text-align: left;
             border-bottom: 1px solid #444;
-            color: #ffffff;
-            padding: 10px;
-            background-color: #1f1f1f;
-            border-top: 1px solid #444;
-            position: relative;
+            position: sticky;
             top: 0;
+            z-index: 10;
         }
 
         header h1 {
-            background: #333;
-            padding: 10px;
             margin: 0;
+            font-size: 1.5rem;
         }
 
         .chat-box {
-            height: 430px; /* Ubah tinggi chat-box */
+            flex-grow: 1;
             padding: 15px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
+            background: #121212;
         }
 
         .bot-message, .user-message {
-            max-width: 80%;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 14px;
-            line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
-        .bot-message {
+        .bot-message img, .user-message img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .bot-message img {
+            background: #4caf50;
+        }
+
+        .user-message img {
+            background: #555;
+        }
+
+        .message-content {
+            max-width: 75%;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .bot-message .message-content {
             background-color: #2c2c2c;
-            align-self: flex-start;
             color: #ffffff;
         }
 
-        .user-message {
+        .user-message .message-content {
             background-color: #4caf50;
-            align-self: flex-end;
             color: #ffffff;
         }
 
@@ -79,24 +100,26 @@
             padding: 10px;
             background-color: #2c2c2c;
             border-top: 1px solid #444;
-            margin-bottom: 10px; /* Tambahkan margin bawah */
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
         }
 
         form input {
             flex: 1;
             padding: 10px;
             border: none;
-            border-radius: 5px;
-            margin-right: 10px;
+            border-radius: 20px;
             font-size: 14px;
             color: #ffffff;
             background-color: #3c3c3c;
+            margin-right: 10px;
         }
 
         form button {
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 20px;
             background-color: #4caf50;
             color: #ffffff;
             font-size: 14px;
@@ -108,23 +131,33 @@
             background-color: #45a047;
         }
 
+        footer {
+            padding: 10px;
+            background-color: #2c2c2c;
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            border-top: 1px solid #444;
+        }
+
         .chat-box::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
 
         .chat-box::-webkit-scrollbar-thumb {
             background-color: #4caf50;
-            border-radius: 3px;
+            border-radius: 4px;
         }
 
-        /* Footer Styles */
-        footer {
-            text-align: center;
-            font-size: 12px;
-            color: #ffffff;
-            padding: 10px;
-            background-color: #1f1f1f;
-            border-top: 1px solid #444; 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -135,45 +168,32 @@
         </header>
         <div class="chat-box" id="chat-box">
             <div class="bot-message">
-                <p>Halo! Saya adalah ChatGUI. Bagaimana saya bisa membantu Anda hari ini?</p>
+                <img src="bot-avatar.png" alt="Bot Avatar">
+                <div class="message-content">
+                    Halo! Saya adalah ChatGUI. Bagaimana saya bisa membantu Anda hari ini?
+                </div>
             </div>
         </div>
         <form id="chat-form">
-            <input
-                type="text"
-                id="user-message"
-                placeholder="Ketik pesan Anda di sini..."
-                required
-            />
+            <input type="text" id="user-message" placeholder="Ketik pesan Anda di sini..." required />
             <button type="submit">Kirim</button>
         </form>
+        <footer>
+            &copy; 2024 ChatGUI. All Rights Reserved. Developed by BossGUI.
+        </footer>
     </div>
 
-    <!-- Footer Section -->
-   
-
-    <!-- Footer Section -->
-    <footer>
-        &copy; 2024 ChatGUI. All Rights Reserved. Developed by BossGUI.
-    </footer>
-
     <script>
-        // Select Elements
         const form = document.getElementById("chat-form");
         const chatBox = document.getElementById("chat-box");
         const inputField = document.getElementById("user-message");
 
-        // Handle Form Submission
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
 
-            // Get User Input
             const userMessage = inputField.value;
+            appendMessage(userMessage, "user-message", "user-avatar.png");
 
-            // Append User Message
-            appendMessage(userMessage, "user-message");
-
-            // Send Message to Backend
             const response = await fetch("/get", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -181,21 +201,25 @@
             });
             const data = await response.json();
 
-            // Append Bot Response
-            appendMessage(data.response, "bot-message");
-
-            // Clear Input Field
+            appendMessage(data.response, "bot-message", "bot-avatar.png");
             inputField.value = "";
         });
 
-        // Append Message to Chat Box
-        function appendMessage(message, className) {
-            const messageElement = document.createElement("div");
-            messageElement.className = className;
-            messageElement.innerHTML = `<p>${message}</p>`;
-            chatBox.appendChild(messageElement);
+        function appendMessage(message, className, avatar) {
+            const messageWrapper = document.createElement("div");
+            messageWrapper.className = className;
 
-            // Scroll to Bottom
+            const avatarImg = document.createElement("img");
+            avatarImg.src = avatar;
+            avatarImg.alt = `${className} avatar`;
+
+            const messageContent = document.createElement("div");
+            messageContent.className = "message-content";
+            messageContent.textContent = message;
+
+            messageWrapper.appendChild(avatarImg);
+            messageWrapper.appendChild(messageContent);
+            chatBox.appendChild(messageWrapper);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
     </script>
