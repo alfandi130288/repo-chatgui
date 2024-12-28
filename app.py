@@ -44,4 +44,4 @@ def get_bot_response():
 
 # Menjalankan aplikasi Flask
 if __name__ == "__main__":
-    app.run(debug=True)  # Ganti debug=False di produksi
+    app.run(debug=False)  # Ganti debug=False di produksi

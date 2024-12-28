@@ -13,23 +13,30 @@
             font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;  /* Ensure footer is at the bottom */
+            min-height: 100vh; /* Ensure footer is at the bottom */
         }
 
         .chat-container {
             max-width: 600px;
-            margin: 50px auto;
+            margin: 0 auto;
             background: #1f1f1f;
             border-radius: 8px;
             overflow: hidden;
-            flex-grow: 1;  /* Allow chat container to expand */
+            flex-grow: 1; /* Allow chat container to expand */
+            display: flex; 
+            flex-direction: column; /* Make container a flex container */
         }
 
         header {
-            background-color: #2c2c2c;
-            padding: 15px;
+            padding: 0;
             text-align: left;
             border-bottom: 1px solid #444;
+            color: #ffffff;
+            padding: 10px;
+            background-color: #1f1f1f;
+            border-top: 1px solid #444;
+            position: relative;
+            top: 0;
         }
 
         header h1 {
@@ -39,7 +46,7 @@
         }
 
         .chat-box {
-            height: 400px;
+            height: 430px; /* Ubah tinggi chat-box */
             padding: 15px;
             overflow-y: auto;
             display: flex;
@@ -72,6 +79,7 @@
             padding: 10px;
             background-color: #2c2c2c;
             border-top: 1px solid #444;
+            margin-bottom: 10px; /* Tambahkan margin bawah */
         }
 
         form input {
@@ -116,12 +124,8 @@
             color: #ffffff;
             padding: 10px;
             background-color: #1f1f1f;
-            border-top: 1px solid #444;
-            position: relative;
-            bottom: 0;
-            width: 100%;
+            border-top: 1px solid #444; 
         }
-
     </style>
 </head>
 <body>
@@ -144,6 +148,9 @@
             <button type="submit">Kirim</button>
         </form>
     </div>
+
+    <!-- Footer Section -->
+   
 
     <!-- Footer Section -->
     <footer>
