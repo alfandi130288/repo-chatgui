@@ -10,31 +10,29 @@
             padding: 0;
             background-color: #121212;
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', ariTahoma, Geneva, 'Verdana', sans-serif;
+            font-style: normal;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
         }
-
         .chat-container {
-            height: 100vh; /* Pastikan kontainer memenuhi seluruh halaman */
+            min-height: 100vh;
+            max-height: 100%;
             width: 100%;
             max-width: 700px;
             height: 90vh;
             display: flex;
             flex-direction: column;
-            background-color: #1f1f1f;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 1);
             overflow: hidden;
         }
 
         header {
             padding: 15px;
-            background-color: #2c2c2c;
             text-align: left;
-            border-bottom: 1px solid #444;
             position: sticky;
             top: 0;
             z-index: 10;
@@ -52,35 +50,31 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            background: #121212;
         }
 
         .bot-message, .user-message {
             display: flex;
-            align-items: flex-start;
             gap: 10px;
             animation: fadeIn 0.5s ease-in-out;
         }
-
-        .bot-message img, .user-message img {
+        .bot-message {
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .user-message {
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+        .bot-message img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
         }
 
-        .bot-message img {
-            background: #4caf50;
-        }
-
-        .user-message img {
-            background: #555;
-        }
-
         .message-content {
-            max-width: 75%;
-            padding: 10px 15px;
+            padding: 10px 10px;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.5;
             word-wrap: break-word;
         }
@@ -88,9 +82,11 @@
         .bot-message .message-content {
             background-color: #2c2c2c;
             color: #ffffff;
+            max-width: 100%;
         }
-
+        
         .user-message .message-content {
+            max-width: 70%;
             background-color: #4caf50;
             color: #ffffff;
         }
@@ -98,8 +94,6 @@
         form {
             display: flex;
             padding: 10px;
-            background-color: #2c2c2c;
-            border-top: 1px solid #444;
             position: sticky;
             bottom: 0;
             z-index: 10;
@@ -109,8 +103,8 @@
             flex: 1;
             padding: 10px;
             border: none;
-            border-radius: 20px;
-            font-size: 14px;
+            border-radius: 50px;
+            font-size: 16px;
             color: #ffffff;
             background-color: #3c3c3c;
             margin-right: 10px;
@@ -119,7 +113,7 @@
         form button {
             padding: 10px 20px;
             border: none;
-            border-radius: 20px;
+            border-radius: 50px;
             background-color: #4caf50;
             color: #ffffff;
             font-size: 14px;
@@ -133,11 +127,9 @@
 
         footer {
             padding: 10px;
-            background-color: #2c2c2c;
             text-align: center;
             font-size: 12px;
             color: #888;
-            border-top: 1px solid #444;
         }
 
         .chat-box::-webkit-scrollbar {
@@ -168,18 +160,19 @@
         </header>
         <div class="chat-box" id="chat-box">
             <div class="bot-message">
-                <img src="bot-avatar.png" alt="Bot Avatar">
+                <img src="https://export-download.canva.com/ArmHo/DAGarKArmHo/5/0/0001-8162099967533457381.png" alt="Boss-GUI">
+
                 <div class="message-content">
-                    Halo! Saya adalah ChatGUI. Bagaimana saya bisa membantu Anda hari ini?
+                    Hello! What can I help  ?
                 </div>
             </div>
         </div>
         <form id="chat-form">
-            <input type="text" id="user-message" placeholder="Ketik pesan Anda di sini..." required />
-            <button type="submit">Kirim</button>
+            <input type="text" id="user-message" placeholder="Message ChatGUI here..." required />
+            <button type="submit">Send</button>
         </form>
         <footer>
-            &copy; 2024 ChatGUI. All Rights Reserved. Developed by BossGUI.
+            &copy; 2024 ChatGUI | Developed by BossGUI | All Rights Reserved
         </footer>
     </div>
 
@@ -192,7 +185,7 @@
             event.preventDefault();
 
             const userMessage = inputField.value;
-            appendMessage(userMessage, "user-message", "user-avatar.png");
+            appendMessage(userMessage, "user-message");
 
             const response = await fetch("/get", {
                 method: "POST",
@@ -201,7 +194,7 @@
             });
             const data = await response.json();
 
-            appendMessage(data.response, "bot-message", "bot-avatar.png");
+            appendMessage(data.response, "bot-message", "boss-gui.png");
             inputField.value = "";
         });
 
@@ -209,15 +202,18 @@
             const messageWrapper = document.createElement("div");
             messageWrapper.className = className;
 
-            const avatarImg = document.createElement("img");
-            avatarImg.src = avatar;
-            avatarImg.alt = `${className} avatar`;
+            // Only add avatar if it's not a user message
+            if (className !== "user-message") {
+                const avatarImg = document.createElement("img");
+                avatarImg.src = avatar;
+                avatarImg.alt = `${className} avatar`;
+                messageWrapper.appendChild(avatarImg);
+            }
 
             const messageContent = document.createElement("div");
             messageContent.className = "message-content";
             messageContent.textContent = message;
 
-            messageWrapper.appendChild(avatarImg);
             messageWrapper.appendChild(messageContent);
             chatBox.appendChild(messageWrapper);
             chatBox.scrollTop = chatBox.scrollHeight;
