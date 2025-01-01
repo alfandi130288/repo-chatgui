@@ -2,6 +2,10 @@ from flask import Flask, render_template, request, jsonify
 from openai import OpenAI
 import os
 import logging
+from dotenv import load_dotenv
+
+# Load environment variables dari file .env
+load_dotenv()
 
 # Konfigurasi logging ke console
 logging.basicConfig(level=logging.ERROR)
